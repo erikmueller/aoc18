@@ -14,6 +14,25 @@ defmodule Day2 do
     twoDupeLetters * threeDupeLetters
   end
 
+  def part2 do
+    combination(2, input())
+    |> Enum.map(fn [string1, string2] -> String.myers_difference(string1, string2) end)
+    |> Enum.reduce_while(:searching, fn item, _ ->
+      case item do
+        [eq: first, del: _, ins: _, eq: second] -> {:halt, first <> second}
+        _ -> {:cont, :searching}
+      end
+    end)
+  end
+
+  # https://stackoverflow.com/questions/30585697/how-to-rewrite-erlang-combinations-algorithm-in-elixir
+  defp combination(0, _), do: [[]]
+  defp combination(_, []), do: []
+
+  defp combination(n, [h | t]) do
+    for(y <- combination(n - 1, t), do: [h | y]) ++ combination(n, t)
+  end
+
   defp to2xAnd3xLetterList(id) do
     id
     |> String.graphemes()
