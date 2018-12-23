@@ -1,8 +1,8 @@
 defmodule Day2 do
   def part1 do
-    {twoDupeLetters, threeDupeLetters} =
+    {two_letters, three_letters} =
       input()
-      |> Enum.map(&to2xAnd3xLetterList/1)
+      |> Enum.map(&to_2x_3x_letter_list/1)
       |> Enum.reduce({0, 0}, fn item, {acc_two, acc_three} ->
         case item do
           [2, 3] -> {acc_two + 1, acc_three + 1}
@@ -11,7 +11,7 @@ defmodule Day2 do
         end
       end)
 
-    twoDupeLetters * threeDupeLetters
+    two_letters * three_letters
   end
 
   def part2 do
@@ -33,7 +33,7 @@ defmodule Day2 do
     for(y <- combination(n - 1, t), do: [h | y]) ++ combination(n, t)
   end
 
-  defp to2xAnd3xLetterList(id) do
+  defp to_2x_3x_letter_list(id) do
     id
     |> String.graphemes()
     |> Enum.reduce(%{}, fn letter, acc ->
